@@ -1,6 +1,8 @@
 package br.com.neurotech.user_management.dto;
 
-import br.com.neurotech.user_management.model.TechnicalCompetence;;
+import br.com.neurotech.user_management.model.TechnicalCompetence;
+
+;
 
 public record TechnicalCompetenceDto(
         String description,

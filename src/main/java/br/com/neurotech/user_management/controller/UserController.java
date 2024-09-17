@@ -3,7 +3,6 @@ package br.com.neurotech.user_management.controller;
 import br.com.neurotech.user_management.dto.UserCreationDto;
 import br.com.neurotech.user_management.dto.UserPublicDto;
 import br.com.neurotech.user_management.dto.UserUpdateDto;
-import br.com.neurotech.user_management.model.User;
 import br.com.neurotech.user_management.model.exception.UserNotFoundException;
 import br.com.neurotech.user_management.service.UserService;
 import org.springframework.http.ResponseEntity;
