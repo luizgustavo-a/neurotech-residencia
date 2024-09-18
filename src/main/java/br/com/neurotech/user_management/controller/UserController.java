@@ -46,12 +46,14 @@ public class UserController {
 
                     if (technicalCompetences != null && !technicalCompetences.isEmpty()) {
                         matches = user.technicalCompetences().stream()
-                                .anyMatch(t -> technicalCompetences.contains(t.description()));
+                                .anyMatch(t -> technicalCompetences.stream()
+                                        .anyMatch(tc -> t.description().toLowerCase().contains(tc.toLowerCase())));
                     }
 
                     if (matches && certifications != null && !certifications.isEmpty()) {
                         matches = user.certifications().stream()
-                                .anyMatch(c -> certifications.contains(c.description()));
+                                .anyMatch(c -> certifications.stream()
+                                        .anyMatch(cert -> c.description().toLowerCase().contains(cert.toLowerCase())));
                     }
 
                     if (matches && yearsOfExperience != null) {
