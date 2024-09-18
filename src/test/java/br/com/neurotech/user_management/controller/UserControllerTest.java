@@ -77,13 +77,13 @@ class UserControllerTest {
                     {
                       "description": "Certified Java Programmer",
                       "institution": "Oracle",
-                      "date": "15/05/2022"
+                      "date": "15/05/2022",
                       "hours": 360
                     },
                     {
                       "description": "Spring Professional",
                       "institution": "Pivotal",
-                      "date": "01/08/2023"
+                      "date": "01/08/2023",
                       "hours": 200
                     }
                   ],
@@ -146,7 +146,8 @@ class UserControllerTest {
                     {
                       "description": "Spring Professional",
                       "institution": "Pivotal",
-                      "date": "01/08/2023"
+                      "date": "01/08/2023",
+                      "hours": 200
                     }
                   ],
                   "workExperience": 5,
