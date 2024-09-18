@@ -19,20 +19,24 @@ public class Certification {
 
     private LocalDate date;
 
+    private Integer hours;
+
     public Certification() {
     }
 
-    public Certification(String description, String institution, LocalDate date) {
+    public Certification(String description, String institution, LocalDate date, Integer hours) {
         this.description = description;
         this.institution = institution;
         this.date = date;
+        this.hours = hours;
     }
 
-    public Certification(Long id, String description, String institution, LocalDate date) {
+    public Certification(Long id, String description, String institution, LocalDate date, Integer hours) {
         this.id = id;
         this.description = description;
         this.institution = institution;
         this.date = date;
+        this.hours = hours;
     }
 
     public Long getId() {
@@ -65,6 +69,14 @@ public class Certification {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public Integer getHours() {
+        return hours;
+    }
+
+    public void setHours(Integer hours) {
+        this.hours = hours;
     }
 
     @Override

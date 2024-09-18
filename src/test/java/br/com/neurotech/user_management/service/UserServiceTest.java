@@ -47,7 +47,8 @@ class UserServiceTest {
         List<Certification> certifications = List.of(new Certification(
                 "description",
                 "institution",
-                LocalDate.parse("01/01/2001", DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
+                LocalDate.parse("01/01/2001", DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                10));
         List<TechnicalCompetence> technicalCompetences = List.of(new TechnicalCompetence(
                 "description",
                 "level"

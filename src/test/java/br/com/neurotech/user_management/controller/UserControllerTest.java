@@ -49,8 +49,8 @@ class UserControllerTest {
                     new TechnicalCompetence("Spring Boot", "Intermediate")
             ),
             List.of(
-                    new Certification("Certified Java Programmer", "Oracle", LocalDate.parse("15/05/2022", sdf)),
-                    new Certification("Spring Professional", "Pivotal", LocalDate.parse("01/08/2023", sdf))
+                    new Certification("Certified Java Programmer", "Oracle", LocalDate.parse("15/05/2022", sdf), 360),
+                    new Certification("Spring Professional", "Pivotal", LocalDate.parse("01/08/2023", sdf), 200)
             ),
             5,
             "https://www.linkedin.com/in/johndoe"
@@ -78,11 +78,13 @@ class UserControllerTest {
                       "description": "Certified Java Programmer",
                       "institution": "Oracle",
                       "date": "15/05/2022"
+                      "hours": 360
                     },
                     {
                       "description": "Spring Professional",
                       "institution": "Pivotal",
                       "date": "01/08/2023"
+                      "hours": 200
                     }
                   ],
                   "workExperience": 5,
@@ -99,8 +101,8 @@ class UserControllerTest {
                         new TechnicalCompetenceDto("Spring Boot", "Intermediate")
                 ),
                 List.of(
-                        new CertificationDto("Certified Java Programmer", "Oracle", "15/05/2022"),
-                        new CertificationDto("Spring Professional", "Pivotal", "01/08/2023")
+                        new CertificationDto("Certified Java Programmer", "Oracle", "15/05/2022", 360),
+                        new CertificationDto("Spring Professional", "Pivotal", "01/08/2023", 200)
                 ),
                 5,
                 "https://www.linkedin.com/in/johndoe"
@@ -138,7 +140,8 @@ class UserControllerTest {
                     {
                       "description": "Certified Java Programmer",
                       "institution": "Oracle",
-                      "date": "15/05/2022"
+                      "date": "15/05/2022",
+                      "hours": 360
                     },
                     {
                       "description": "Spring Professional",
@@ -184,7 +187,7 @@ class UserControllerTest {
                         new TechnicalCompetence("Python Development", "Expert")
                 ),
                 List.of(
-                        new Certification("Automation Architect", "UiPath", LocalDate.parse("15/05/2022", sdf))
+                        new Certification("Automation Architect", "UiPath", LocalDate.parse("15/05/2022", sdf), 200)
                 ),
                 5,
                 "https://www.linkedin.com/in/correctuser"
