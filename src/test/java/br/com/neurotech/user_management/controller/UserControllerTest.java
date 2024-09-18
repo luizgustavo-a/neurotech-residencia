@@ -11,10 +11,15 @@ import br.com.neurotech.user_management.service.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -167,43 +172,57 @@ class UserControllerTest {
 
     @Test
     public void listAllUsers_WithoutParams_ShouldListAllUsers() throws Exception {
-        List<User> userList = List.of(user);
+        User user2 = new User();
+        user2.setName("User 2");
+        user2.setCertifications(List.of());
+        user2.setTechnicalCompetences(List.of());
+        List<User> userList = List.of(user, user2);
 
-        when(userService.listAllUsers()).thenReturn(userList);
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<User> page = new PageImpl<>(userList, pageable, userList.size());
+
+        when(userService.listAllUsersWithFilters(
+                Mockito.isNull(),
+                Mockito.isNull(),
+                Mockito.isNull(),
+                Mockito.isNull(),
+                Mockito.any(Pageable.class)))
+                .thenReturn(page);
 
         mvc.perform(
                         get("/user")
                 )
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content.length()").value(2))
+                .andExpect(jsonPath("$.content[0].name").value("John Doe"))
+                .andExpect(jsonPath("$.content[1].name").value("User 2"));
     }
 
     @Test
     public void listAllUsers_WithParams_ShouldListOnlyOneUser() throws Exception {
-        List<User> userList = List.of(user, new User(
-                1L,
-                "Correct User",
-                "correct.user@example.com",
-                "(12) 34567-8981",
-                List.of(
-                        new TechnicalCompetence("Python Development", "Expert")
-                ),
-                List.of(
-                        new Certification("Automation Architect", "UiPath", LocalDate.parse("15/05/2022", sdf), 200)
-                ),
-                5,
-                "https://www.linkedin.com/in/correctuser"
-        ));
+        List<User> userList = List.of(user);
 
-        when(userService.listAllUsers()).thenReturn(userList);
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<User> page = new PageImpl<>(userList, pageable, userList.size());
+
+        when(userService.listAllUsersWithFilters(
+                Mockito.eq(List.of("Java")),
+                Mockito.isNull(),
+                Mockito.isNull(),
+                Mockito.isNull(),
+                Mockito.any(Pageable.class)))
+                .thenReturn(page);
 
         mvc.perform(
                         get("/user")
-                                .param("technical competence", "Python Development")
-                                .param("certification", "Automation Architect")
+                                .param("technical competence", "Java")
+                                .param("page", "0")
+                                .param("size", "10")
+                                .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(1))
-                .andExpect(jsonPath("$.[0].name").value("Correct User"));
+                .andExpect(jsonPath("$.content.length()").value(1))
+                .andExpect(jsonPath("$.content[0].name").value("John Doe"));
     }
 
     @Test

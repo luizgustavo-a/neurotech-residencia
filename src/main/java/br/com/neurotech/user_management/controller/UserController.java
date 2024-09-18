@@ -6,6 +6,10 @@ import br.com.neurotech.user_management.dto.UserUpdateDto;
 import br.com.neurotech.user_management.model.exception.UserNotFoundException;
 import br.com.neurotech.user_management.service.UserService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -32,39 +36,23 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserPublicDto>> listAllUsers(
+    public ResponseEntity<Page<UserPublicDto>> listAllUsers(
             @RequestParam(value = "technical competence", required = false) List<String> technicalCompetences,
             @RequestParam(value = "certification", required = false) List<String> certifications,
-            @RequestParam(value = "years of experience", required = false) Integer yearsOfExperience
+            @RequestParam(value = "years of experience (min)", required = false) Integer yearsOfExperienceMin,
+            @RequestParam(value = "years of experience (max)", required = false) Integer yearsOfExperienceMax,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "sort", defaultValue = "id") String sort
     ) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
+        var paginatedUsers = userService.listAllUsersWithFilters(technicalCompetences,
+                certifications,
+                yearsOfExperienceMin,
+                yearsOfExperienceMax,
+                pageable).map(UserPublicDto::new);
 
-        var userList = userService.listAllUsers()
-                .stream()
-                .map(UserPublicDto::new)
-                .filter(user -> {
-                    boolean matches = true;
-
-                    if (technicalCompetences != null && !technicalCompetences.isEmpty()) {
-                        matches = user.technicalCompetences().stream()
-                                .anyMatch(t -> technicalCompetences.stream()
-                                        .anyMatch(tc -> t.description().toLowerCase().contains(tc.toLowerCase())));
-                    }
-
-                    if (matches && certifications != null && !certifications.isEmpty()) {
-                        matches = user.certifications().stream()
-                                .anyMatch(c -> certifications.stream()
-                                        .anyMatch(cert -> c.description().toLowerCase().contains(cert.toLowerCase())));
-                    }
-
-                    if (matches && yearsOfExperience != null) {
-                        matches = user.yearsOfExperience().equals(yearsOfExperience);
-                    }
-
-                    return matches;
-                })
-                .toList();
-
-        return ResponseEntity.ok(userList);
+        return ResponseEntity.ok(paginatedUsers);
     }
 
     @GetMapping("/{idOrEmail}")

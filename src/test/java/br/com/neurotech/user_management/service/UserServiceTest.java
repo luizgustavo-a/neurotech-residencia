@@ -17,10 +17,14 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -79,24 +83,114 @@ class UserServiceTest {
     }
 
     @Test
-    public void listAllUsers_Valid_ShouldReturnListOfAllUsers() {
+    public void listAllUsersWithFilters_NoFilter_ShouldReturnListOfAllUsers() {
         User user1 = new User();
         user1.setName("name");
 
         User user2 = new User();
         user2.setEmail("email@email.com");
 
-        List<User> users = Arrays.asList(user1, user2);
+        Pageable pageable = PageRequest.of(0, 10);
 
-        Mockito.when(userRepository.findAll()).thenReturn(users);
+        Page<User> users = new PageImpl<>(List.of(user1, user2), pageable, 2);
 
-        List<User> userList = userService.listAllUsers();
+        Mockito.when(userRepository.findAll(Mockito.any(Specification.class), Mockito.eq(pageable)))
+                .thenReturn(users);
 
-        Assertions.assertEquals(2, userList.size());
-        Assertions.assertEquals("name", userList.get(0).getName());
-        Assertions.assertEquals("email@email.com", userList.get(1).getEmail());
-        Mockito.verify(userRepository, Mockito.times(1)).findAll();
+        var userList = userService.listAllUsersWithFilters(null, null, null, null, pageable);
+
+        Assertions.assertEquals(2, userList.getTotalElements());
+        Assertions.assertEquals("name", userList.getContent().get(0).getName());
+        Assertions.assertEquals("email@email.com", userList.getContent().get(1).getEmail());
+        Mockito.verify(userRepository, Mockito.times(1)).findAll(Mockito.any(Specification.class), Mockito.eq(pageable));
     }
+
+    @Test
+    public void listAllUsersWithFilters_TechnicalCompetenceFilter_ShouldReturnFilteredUsers() {
+        User user1 = new User();
+        user1.setName("name1");
+        user1.setTechnicalCompetences(List.of(new TechnicalCompetence("Java", "level")));
+
+        User user2 = new User();
+        user2.setName("name2");
+        user2.setTechnicalCompetences(List.of(new TechnicalCompetence("Python", "level")));
+
+        Pageable pageable = PageRequest.of(0, 10);
+
+        Mockito.when(userRepository.findAll(Mockito.any(Specification.class), Mockito.eq(pageable)))
+                .thenAnswer(invocation -> {
+                    Specification<User> spec = invocation.getArgument(0);
+                    if (spec != null) {
+                        return new PageImpl<>(List.of(user1), pageable, 1);
+                    }
+                    return new PageImpl<>(List.of(user1, user2), pageable, 2);
+                });
+
+        var userList = userService.listAllUsersWithFilters(List.of("Java"), null, null, null, pageable);
+
+        Assertions.assertEquals(1, userList.getTotalElements());
+        Assertions.assertEquals("name1", userList.getContent().get(0).getName());
+
+        Mockito.verify(userRepository, Mockito.times(1)).findAll(Mockito.any(Specification.class), Mockito.eq(pageable));
+    }
+
+    @Test
+    public void listAllUsersWithFilters_CertificationFilter_ShouldReturnFilteredUsers() {
+        User user1 = new User();
+        user1.setName("name1");
+        user1.setCertifications(List.of(new Certification("AWS", "institution", LocalDate.now(), 10)));
+
+        User user2 = new User();
+        user2.setName("name2");
+        user2.setCertifications(List.of(new Certification("Azure", "institution", LocalDate.now(), 10)));
+
+        Pageable pageable = PageRequest.of(0, 10);
+
+        Mockito.when(userRepository.findAll(Mockito.any(Specification.class), Mockito.eq(pageable)))
+                .thenAnswer(invocation -> {
+                    Specification<User> spec = invocation.getArgument(0);
+                    if (spec != null) {
+                        return new PageImpl<>(List.of(user1), pageable, 1);
+                    }
+                    return new PageImpl<>(List.of(user1, user2), pageable, 2);
+                });
+
+        var userList = userService.listAllUsersWithFilters(null, List.of("AWS"), null, null, pageable);
+
+        Assertions.assertEquals(1, userList.getTotalElements());
+        Assertions.assertEquals("name1", userList.getContent().get(0).getName());
+
+        Mockito.verify(userRepository, Mockito.times(1)).findAll(Mockito.any(Specification.class), Mockito.eq(pageable));
+    }
+
+    @Test
+    public void listAllUsersWithFilters_YearsOfExperienceFilter_ShouldReturnFilteredUsers() {
+        User user1 = new User();
+        user1.setName("name1");
+        user1.setYearsOfExperience(5);
+
+        User user2 = new User();
+        user2.setName("name2");
+        user2.setYearsOfExperience(10);
+
+        Pageable pageable = PageRequest.of(0, 10);
+
+        Mockito.when(userRepository.findAll(Mockito.any(Specification.class), Mockito.eq(pageable)))
+                .thenAnswer(invocation -> {
+                    Specification<User> spec = invocation.getArgument(0);
+                    if (spec != null) {
+                        return new PageImpl<>(List.of(user1), pageable, 1);
+                    }
+                    return new PageImpl<>(List.of(user1, user2), pageable, 2);
+                });
+
+        var userList = userService.listAllUsersWithFilters(null, null, 8, 10, pageable);
+
+        Assertions.assertEquals(1, userList.getTotalElements());
+
+        Mockito.verify(userRepository, Mockito.times(1)).findAll(Mockito.any(Specification.class), Mockito.eq(pageable));
+    }
+
 
     @Test
     public void findUserById_WithValidId_ShouldReturnUser() throws UserNotFoundException {

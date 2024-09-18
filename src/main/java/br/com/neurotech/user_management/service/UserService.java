@@ -9,6 +9,9 @@ import br.com.neurotech.user_management.model.exception.UserNotFoundException;
 import br.com.neurotech.user_management.repository.CertificationRepository;
 import br.com.neurotech.user_management.repository.TechnicalCompetenceRepository;
 import br.com.neurotech.user_management.repository.UserRepository;
+import br.com.neurotech.user_management.repository.UserSpecification;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -50,8 +53,13 @@ public class UserService {
         return user;
     }
 
-    public List<User> listAllUsers() {
-        return userRepository.findAll();
+    public Page<User> listAllUsersWithFilters(List<String> technicalCompetences, List<String> certifications,
+                                              Integer yearsOfExperienceMin, Integer yearsOfExperienceMax, Pageable pageable) {
+        return userRepository.findAll(
+                UserSpecification.filterUser(technicalCompetences,
+                        certifications,
+                        yearsOfExperienceMin,
+                        yearsOfExperienceMax), pageable);
     }
 
     public User findUserById(Long id) throws UserNotFoundException {
@@ -88,8 +96,8 @@ public class UserService {
                     .map(CertificationDto::toModel)
                     .toList());
         }
-        if(updateDto.workExperience() != null) {
-            user.setYearsOfExperience(updateDto.workExperience());
+        if(updateDto.yearsOfExperience() != null) {
+            user.setYearsOfExperience(updateDto.yearsOfExperience());
         }
         if(updateDto.linkedinUrl() != null && !updateDto.linkedinUrl().isEmpty()) {
             user.setLinkedinUrl(updateDto.linkedinUrl());
