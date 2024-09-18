@@ -1,9 +1,6 @@
 package br.com.neurotech.user_management.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import java.util.List;
 
@@ -26,7 +23,8 @@ public record UserCreationDto(
 
         List<CertificationDto> certifications,
 
-        @NotBlank(message = "If there is no work experience, write 0")
+        @NotNull(message = "If there is no work experience, write 0")
+        @Min(value = 0)
         Integer workExperience,
 
         @NotBlank

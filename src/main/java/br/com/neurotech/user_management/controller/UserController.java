@@ -5,6 +5,7 @@ import br.com.neurotech.user_management.dto.UserPublicDto;
 import br.com.neurotech.user_management.dto.UserUpdateDto;
 import br.com.neurotech.user_management.model.exception.UserNotFoundException;
 import br.com.neurotech.user_management.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -22,7 +23,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserPublicDto> createUser(@RequestBody UserCreationDto creationDto,
+    public ResponseEntity<UserPublicDto> createUser(@RequestBody @Valid UserCreationDto creationDto,
                                                     UriComponentsBuilder builder) {
         var user = userService.create(creationDto);
         var uri = builder.path("/user/{id}").buildAndExpand(user.getId()).toUri();
@@ -78,7 +79,7 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<UserPublicDto> updateUser(@RequestBody UserUpdateDto updateDto) throws UserNotFoundException {
+    public ResponseEntity<UserPublicDto> updateUser(@RequestBody @Valid UserUpdateDto updateDto) throws UserNotFoundException {
         var user = userService.update(updateDto);
 
         return ResponseEntity.ok(new UserPublicDto(user));
