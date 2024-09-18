@@ -1,14 +1,14 @@
 package br.com.neurotech.user_management.dto;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 import java.util.List;
 
 public record UserUpdateDto(
-        @NotBlank(message = "The id must be provided")
+        @NotNull(message = "The id must be provided")
         Long id,
 
         @Size(min = 2,
@@ -26,7 +26,7 @@ public record UserUpdateDto(
 
         List<CertificationDto> certifications,
 
-        Integer workExperience,
+        Integer yearsOfExperience,
 
         @Pattern(regexp = "^https?:\\/\\/(www\\.)?linkedin\\.com\\/in\\/[a-zA-Z0-9-]{3,100}\\/?$",
                 message = "The URL must be valid")
