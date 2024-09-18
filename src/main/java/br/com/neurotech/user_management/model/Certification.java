@@ -3,6 +3,7 @@ package br.com.neurotech.user_management.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Table(name = "certifications")
@@ -64,5 +65,18 @@ public class Certification {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Certification that = (Certification) o;
+        return Objects.equals(id, that.id) && Objects.equals(description, that.description) && Objects.equals(institution, that.institution) && Objects.equals(date, that.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, description, institution, date);
     }
 }

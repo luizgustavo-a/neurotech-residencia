@@ -3,6 +3,7 @@ package br.com.neurotech.user_management.model;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -125,5 +126,18 @@ public class User {
 
     public void setLinkedinUrl(String linkedinUrl) {
         this.linkedinUrl = linkedinUrl;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(email, user.email) && Objects.equals(contact, user.contact) && Objects.equals(technicalCompetences, user.technicalCompetences) && Objects.equals(certifications, user.certifications) && Objects.equals(yearsOfExperience, user.yearsOfExperience) && Objects.equals(linkedinUrl, user.linkedinUrl);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, email, contact, technicalCompetences, certifications, yearsOfExperience, linkedinUrl);
     }
 }
