@@ -29,8 +29,8 @@ public class UserService {
     public User create(UserCreationDto creationDto) {
         User user = new User(
                 creationDto.name(),
-                creationDto.contact(),
                 creationDto.email(),
+                creationDto.contact(),
                 creationDto.technicalCompetences()
                         .stream()
                         .map(TechnicalCompetenceDto::toModel)
