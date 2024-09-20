@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.*;
 
 @ControllerAdvice
-public class ErrorHandling {
+public class ErrorHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity handleError404(EntityNotFoundException e) {
