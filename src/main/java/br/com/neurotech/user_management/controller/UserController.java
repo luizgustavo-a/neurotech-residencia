@@ -5,6 +5,7 @@ import br.com.neurotech.user_management.dto.UserPublicDto;
 import br.com.neurotech.user_management.dto.UserUpdateDto;
 import br.com.neurotech.user_management.model.exception.UserNotFoundException;
 import br.com.neurotech.user_management.service.UserService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -69,6 +70,7 @@ public class UserController {
     }
 
     @PutMapping
+    @Transactional
     public ResponseEntity<UserPublicDto> updateUser(@RequestBody @Valid UserUpdateDto updateDto) throws UserNotFoundException {
         var user = userService.update(updateDto);
 
@@ -76,6 +78,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
+    @Transactional
     public ResponseEntity<UserPublicDto> deleteUser(@PathVariable Long id) throws UserNotFoundException {
         var user = userService.delete(id);
 
