@@ -1,0 +1,29 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: neurotech_employees_management
+    environment:
+      POSTGRESQL_DB_HOST: postgres
+      POSTGRESQL_DB_USER: ${POSTGRESQL_DB_USER}
+      POSTGRESQL_DB_PASSWORD: ${POSTGRESQL_DB_PASSWORD}
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres_neurotech_employees
+    environment:
+      POSTGRES_DB: neurotech_employees
+      POSTGRES_USER: ${POSTGRESQL_DB_USER}
+      POSTGRES_PASSWORD: ${POSTGRESQL_DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data_neurotech_employees:/var/lib/postgresql/data
+
+volumes:
+  postgres_data_neurotech_employees:
