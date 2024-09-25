@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com.neurotech</groupId>
-	<artifactId>user-management</artifactId>
+	<artifactId>employee-management</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>user-management</name>
-	<description>API REST para cadastro e gerenciamento das informações de usuários com atribuições específicas</description>
+	<name>employee-management</name>
+	<description>API REST para cadastro e gerenciamento das informações de funcionários</description>
 	<url/>
 	<licenses>
 		<license/>
