@@ -11,6 +11,7 @@ This is a Spring Boot application designed for managing employee data. It allows
   - Years of experience (minimum and maximum)
 - Search for an employee by ID or email.
 - Dockerized with PostgreSQL integration.
+- Automatically generated API documentation with **SpringDoc** and OpenAPI.
 
 ## Technologies Used
 
@@ -19,6 +20,7 @@ This is a Spring Boot application designed for managing employee data. It allows
 - **Docker** for containerization.
 - **Flyway** for database migrations.
 - **Hibernate** for ORM (Object Relational Mapping).
+- **SpringDoc OpenAPI** for API documentation.
 
 ## Project Structure
 
@@ -43,12 +45,12 @@ This project is Dockerized and uses `docker-compose` for setting up the applicat
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/your-repo-name.git
+   git clone https://github.com/luizgustavo-a/neurotech-residencia.git
    ```
 
 2. Navigate into the project directory:
    ```bash
-   cd your-repo-name
+   cd neurotech-residencia
    ```
 
 3. Build and run the application using Docker Compose:
@@ -60,6 +62,13 @@ This project is Dockerized and uses `docker-compose` for setting up the applicat
    ```
    http://localhost:8080
    ```
+
+## API Documentation
+
+The application uses **SpringDoc OpenAPI** for generating API documentation. After starting the application, the API documentation can be accessed at:
+
+- **Swagger UI**: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+- **OpenAPI JSON**: [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs)
 
 ## Endpoints
 
@@ -77,13 +86,6 @@ This project is Dockerized and uses `docker-compose` for setting up the applicat
 - `years of experience (min)`: Minimum years of experience.
 - `years of experience (max)`: Maximum years of experience.
 
-## Database
-
-The application uses a PostgreSQL database with the following setup:
-
-- **Database Name**: `neurotech_employees`
-- **Tables**: Automatically created and managed by Hibernate and Flyway.
-
 ## Contributing
 
 1. Fork the repository.
@@ -91,8 +93,3 @@ The application uses a PostgreSQL database with the following setup:
 3. Commit your changes (`git commit -m 'Add new feature'`).
 4. Push to the branch (`git push origin feature-branch`).
 5. Open a pull request.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-```
