@@ -1,10 +1,12 @@
-# Neurotech Employee Management Application
+# Neurotech ProTalent
 
-This is a Spring Boot application designed for managing employee data. It allows CRUD operations on employee records, including filtering based on various attributes such as technical competences, certifications, and years of experience.
+This is a Spring Boot application designed for managing Neurotech's employee data, including their technical competences and certifications. It allows CRUD operations on employee records, technical competences, and certifications, as well as filtering employees based on attributes like technical competences, certifications, and years of experience.
 
 ## Features
 
 - Create, read, update, and delete employee records.
+- Create, read, update, and delete technical competences.
+- Create, read, update, and delete certifications.
 - Filter employees based on:
   - Technical competences
   - Certifications
@@ -80,11 +82,25 @@ The application uses **SpringDoc OpenAPI** for generating API documentation. Aft
 - **PUT /employee**: Update employee details.
 - **DELETE /employee/{id}**: Delete an employee by ID.
 
-### Filters (GET /employee)
+#### Filters (GET /employee)
 - `technical competence`: List of technical competences.
 - `certification`: List of certifications.
 - `years of experience (min)`: Minimum years of experience.
 - `years of experience (max)`: Maximum years of experience.
+
+### Certifications Endpoints
+- POST /certification: Create a new certification.
+- GET /certification: List all certifications.
+- GET /certification/{id}: Retrieve certification details by ID.
+- PUT /certification: Update certification details.
+- DELETE /certification/{id}: Delete a certification by ID.
+
+### Technical Competences Endpoints
+- POST /technical-competence: Create a new technical competence.
+- GET /technical-competence: List all technical competences.
+- GET /technical-competence/{id}: Retrieve technical competence details by ID.
+- PUT /technical-competence: Update technical competence details.
+- DELETE /technical-competence/{id}: Delete a technical competence by ID.
 
 ## Contributing
 
