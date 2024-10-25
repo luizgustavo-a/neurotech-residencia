@@ -2,8 +2,8 @@ FROM openjdk:17-jdk-slim
 
 WORKDIR /app
 
-COPY target/employee-management-0.0.1-SNAPSHOT.jar neurotech-employees-app.jar
+COPY target/protalent-0.0.1-SNAPSHOT.jar protalent-app.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "neurotech-employees-app.jar"]
+ENTRYPOINT ["java", "-jar", "protalent-app.jar"]

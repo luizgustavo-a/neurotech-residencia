@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: neurotech_employees_management
+    container_name: neurotech_protalent
     environment:
       POSTGRESQL_DB_HOST: postgres
       POSTGRESQL_DB_USER: ${POSTGRESQL_DB_USER}
@@ -15,15 +15,15 @@ services:
 
   postgres:
     image: postgres:latest
-    container_name: postgres_neurotech_employees
+    container_name: postgres_neurotech_protalent
     environment:
-      POSTGRES_DB: neurotech_employees
+      POSTGRES_DB: neurotech_protalent
       POSTGRES_USER: ${POSTGRESQL_DB_USER}
       POSTGRES_PASSWORD: ${POSTGRESQL_DB_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data_neurotech_employees:/var/lib/postgresql/data
+      - postgres_data_neurotech_protalent:/var/lib/postgresql/data
 
 volumes:
-  postgres_data_neurotech_employees:
+  postgres_data_neurotech_protalent:
