@@ -47,13 +47,13 @@ public class EmployeeController {
             @RequestParam(value = "sort", defaultValue = "id") String sort
     ) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
-        var paginatedemployees = employeeService.listAllEmployeesWithFilters(technicalCompetences,
+        var paginatedEmployees = employeeService.listAllEmployeesWithFilters(technicalCompetences,
                 certifications,
                 yearsOfExperienceMin,
                 yearsOfExperienceMax,
                 pageable).map(EmployeePublicDto::new);
 
-        return ResponseEntity.ok(paginatedemployees);
+        return ResponseEntity.ok(paginatedEmployees);
     }
 
     @GetMapping("/{idOrEmail}")

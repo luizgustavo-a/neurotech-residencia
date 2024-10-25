@@ -1,15 +1,15 @@
 package br.com.neurotech.employees_management.service;
 
 import br.com.neurotech.employees_management.dto.CertificationDto;
-import br.com.neurotech.employees_management.dto.TechnicalCompetenceDto;
 import br.com.neurotech.employees_management.dto.EmployeeCreationDto;
 import br.com.neurotech.employees_management.dto.EmployeeUpdateDto;
+import br.com.neurotech.employees_management.dto.TechnicalCompetenceDto;
 import br.com.neurotech.employees_management.model.Employee;
 import br.com.neurotech.employees_management.model.exception.EmployeeNotFoundException;
 import br.com.neurotech.employees_management.repository.CertificationRepository;
-import br.com.neurotech.employees_management.repository.TechnicalCompetenceRepository;
 import br.com.neurotech.employees_management.repository.EmployeeRepository;
 import br.com.neurotech.employees_management.repository.EmployeeSpecification;
+import br.com.neurotech.employees_management.repository.TechnicalCompetenceRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
