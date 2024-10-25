@@ -12,8 +12,8 @@ public class SpringDocConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Gerenciamento de funcionários")
-                        .description("API REST para cadastro e gerenciamento das informações de funcionários.")
+                        .title("ProTalent")
+                        .description("API REST para cadastro e gerenciamento das informações de funcionários, suas competências técnicas e certificações.")
                 );
     }
 }
